@@ -1,0 +1,14 @@
+# Frontend Environment Variables
+NEXT_PUBLIC_API_URL=/api
+
+# Backend Environment Variables (set in Vercel dashboard)
+# DB_HOST=your-database-host
+# DB_PORT=5432
+# DB_NAME=your-database-name
+# DB_USER=your-database-user
+# DB_PASSWORD=your-database-password
+# JWT_SECRET=your-super-secret-jwt-key-here
+# JWT_EXPIRES_IN=24h
+# ALLOWED_ORIGINS=https://your-domain.vercel.app
+# OPENAI_API_KEY=your-openai-api-key
+# HUGGINGFACE_API_KEY=your-huggingface-api-key 

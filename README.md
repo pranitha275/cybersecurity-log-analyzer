@@ -291,6 +291,52 @@ Sample files are in `sample-logs/`:
 
 Upload them after login to see detection in action.
 
+## Vercel Deployment
+
+Deploy both frontend and backend to Vercel for production use:
+
+### 1. **Prepare for Deployment**
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Login to Vercel
+vercel login
+```
+
+### 2. **Set Environment Variables in Vercel Dashboard**
+Go to your Vercel project dashboard and add these environment variables:
+
+**Frontend Variables:**
+- `NEXT_PUBLIC_API_URL` = `/api`
+
+**Backend Variables:**
+- `DB_HOST` = your-database-host
+- `DB_PORT` = 5432
+- `DB_NAME` = your-database-name
+- `DB_USER` = your-database-user
+- `DB_PASSWORD` = your-database-password
+- `JWT_SECRET` = your-super-secret-jwt-key
+- `JWT_EXPIRES_IN` = 24h
+- `ALLOWED_ORIGINS` = https://your-domain.vercel.app
+- `OPENAI_API_KEY` = your-openai-api-key (optional)
+- `HUGGINGFACE_API_KEY` = your-huggingface-api-key (optional)
+
+### 3. **Deploy to Vercel**
+```bash
+# Deploy from project root
+vercel --prod
+```
+
+### 4. **Database Setup for Production**
+- Use a cloud PostgreSQL service (e.g., Supabase, Neon, Railway)
+- Update the database connection string in Vercel environment variables
+- The app will automatically connect to your production database
+
+### 5. **Access Your Deployed App**
+- **Frontend**: Your Vercel domain (e.g., `https://your-app.vercel.app`)
+- **Backend API**: `https://your-app.vercel.app/api/*`
+
 ## Docker Compose (optional)
 
 A `docker-compose.yml` is included for quick start with Postgres, backend, and frontend:
