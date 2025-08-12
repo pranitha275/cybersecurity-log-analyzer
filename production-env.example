@@ -1,0 +1,26 @@
+# Production Environment Variables for Vercel
+# Copy this to .env.local and fill in your actual values
+
+# Frontend
+NEXT_PUBLIC_API_URL=/api
+
+# Database (Use cloud PostgreSQL service)
+DB_HOST=your-database-host.supabase.co
+DB_PORT=5432
+DB_NAME=your-database-name
+DB_USER=your-database-user
+DB_PASSWORD=your-database-password
+
+# Security
+JWT_SECRET=your-super-secret-jwt-key-here-change-in-production
+JWT_EXPIRES_IN=24h
+
+# CORS
+ALLOWED_ORIGINS=https://your-app.vercel.app
+
+# AI Services (Optional)
+OPENAI_API_KEY=your-openai-api-key
+HUGGINGFACE_API_KEY=your-huggingface-api-key
+
+# Environment
+NODE_ENV=production 
