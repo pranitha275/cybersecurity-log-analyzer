@@ -219,9 +219,7 @@ npm run lint
 
 MIT License - see LICENSE file for details
 
-## Support
-
-For support, email venkata@tenex.ai or create an issue in the repository. 
+ 
 
 ## Auth changes
 - Backend now sets an HttpOnly `auth_token` cookie on login/signup and accepts it for protected routes.
@@ -249,7 +247,7 @@ If no API keys are provided, detection defaults to local rules.
 2. Create a database, e.g., `logs`.
 3. Update `backend/.env` with:
    ```
-   DATABASE_URL=postgres://user:pass@localhost:5432/logs
+   DATABASE_URL=postgres://username:password@localhost:5432/logs
    ```
 4. Initialize tables:
    ```bash
