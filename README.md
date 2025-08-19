@@ -1,352 +1,296 @@
-# Cybersecurity Log Analysis Application
+# Cybersecurity Log Analyzer
 
-A full-stack web application for uploading, parsing, and analyzing log files with AI-powered anomaly detection.
+A comprehensive full-stack web application designed to analyze log files using artificial intelligence to detect security threats and anomalies. This application provides cybersecurity professionals and SOC analysts with an intelligent tool for log analysis, threat detection, and security monitoring.
 
-## Features
+## Overview
 
-- **User Authentication**: Secure login/signup with JWT tokens
-- **File Upload**: Upload and store log files (.txt, .log)
-- **Log Analysis**: Parse and analyze log entries
-- **Anomaly Detection**: AI-powered detection of unusual patterns
-- **Dashboard**: Visual representation of analysis results
-- **Responsive Design**: Modern UI that works on all devices
+The Cybersecurity Log Analyzer is built with modern web technologies and integrates OpenAI's GPT-4o Mini model to provide intelligent analysis of various log file formats. The application can parse different types of logs including web server logs, proxy logs, application logs, and generic log formats. It automatically identifies suspicious activities, assigns threat levels, and provides detailed explanations for each detected anomaly.
 
-## Tech Stack
+## Key Features
 
-### Frontend
-- **Next.js 15** with TypeScript
-- **React 19** with hooks
-- **Tailwind CSS** for styling
-- **Shadcn/ui** components
-- **Lucide React** icons
+**Intelligent Log Analysis**: The application uses OpenAI's advanced language model to analyze log entries and identify potential security threats. Each log entry is examined for suspicious patterns, unusual behavior, and security risks.
 
-### Backend
-- **Node.js** with Express
-- **PostgreSQL** database
-- **JWT** authentication
-- **Multer** for file uploads
-- **bcryptjs** for password hashing
+**Real-time Threat Detection**: Upload log files and receive immediate analysis with threat levels, confidence scores, and detailed explanations for each detected anomaly.
 
-### Database
-- **PostgreSQL 15** with proper indexing
-- **Connection pooling** for performance
+**Multiple Log Format Support**: The system can parse and analyze various log formats including Apache logs, Nginx logs, proxy logs, and generic log formats.
+
+**User Authentication**: Secure JWT-based authentication system with password hashing and session management.
+
+**Comprehensive Dashboard**: A modern, responsive dashboard that displays analysis results in an easy-to-understand format with filtering and sorting capabilities.
+
+**Database Persistence**: All analysis results are stored in a PostgreSQL database for historical tracking and comparison.
+
+**File Management**: Upload, view, and delete log files with automatic cleanup of associated analysis data.
+
+## Technology Stack
+
+**Frontend**: Next.js 15 with React, TypeScript, and Tailwind CSS for styling. The interface uses shadcn/ui components for a modern, professional appearance.
+
+**Backend**: Node.js with Express.js framework, providing RESTful API endpoints for file upload, authentication, and log analysis.
+
+**Database**: PostgreSQL for data persistence, with proper schema design for users, log files, and analysis results.
+
+**AI Integration**: OpenAI GPT-4o Mini for intelligent log analysis and threat detection.
+
+**Authentication**: JWT tokens with bcrypt password hashing for secure user sessions.
+
+**Deployment**: Vercel for frontend deployment and serverless functions for backend API endpoints.
 
 ## Prerequisites
 
-- Node.js 18+ 
-- PostgreSQL 15+
-- Docker (optional, for containerized setup)
+Before running this application, ensure you have the following installed on your system:
 
-## Quick Start with Docker
+- Node.js version 18 or higher
+- npm or yarn package manager
+- PostgreSQL database server
+- Git for version control
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd cybersecurity-app-frontend
-   ```
+## Installation and Setup
 
-2. **Start the services**
-   ```bash
-   docker-compose up -d
-   ```
+### Step 1: Clone the Repository
 
-3. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - Database: localhost:5432
+First, clone the repository to your local machine:
 
-## Manual Setup
+```bash
+git clone https://github.com/pranitha275/cybersecurity-log-analyzer.git
+cd cybersecurity-log-analyzer
+```
 
-### 1. Database Setup
+### Step 2: Install Dependencies
 
-1. **Install PostgreSQL** and create a database:
-   ```sql
-   CREATE DATABASE cybersecurity_app;
-   ```
+Install the required dependencies for both frontend and backend:
 
-2. **Run the initialization script**:
-   ```bash
-   psql -d cybersecurity_app -f backend/database/init.sql
-   ```
+```bash
+# Install frontend dependencies
+npm install
 
-### 2. Backend Setup
+# Install backend dependencies
+cd backend
+npm install
+cd ..
+```
 
-1. **Navigate to backend directory**:
-   ```bash
-   cd backend
-   ```
+### Step 3: Database Setup
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+Create a PostgreSQL database and configure the connection:
 
-3. **Create environment file**:
-   ```bash
-   cp env.example .env
-   ```
+1. Create a new PostgreSQL database:
+```sql
+CREATE DATABASE cybersecurity_app;
+```
 
-4. **Update environment variables** in `.env`:
-   ```env
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=cybersecurity_app
-   DB_USER=postgres
-   DB_PASSWORD=your_password
-   JWT_SECRET=your_super_secret_jwt_key_here
-   JWT_EXPIRES_IN=24h
-   PORT=5000
-   NODE_ENV=development
-   MAX_FILE_SIZE=10485760
-   UPLOAD_PATH=./uploads
-   ```
+2. Create a database user (optional but recommended):
+```sql
+CREATE USER your_username WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE cybersecurity_app TO your_username;
+```
 
-5. **Start the backend server**:
-   ```bash
-   npm run dev
-   ```
+3. Initialize the database schema by running the SQL script in `backend/database/init.sql`
 
-### 3. Frontend Setup
+### Step 4: Environment Configuration
 
-1. **Install dependencies** (from project root):
-   ```bash
-   npm install
-   ```
+Create environment files for both frontend and backend:
 
-2. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
+**Backend Environment (backend/.env):**
+```
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=cybersecurity_app
+DB_USER=your_username
+DB_PASSWORD=your_password
 
-3. **Access the application** at http://localhost:3000
+# JWT Configuration
+JWT_SECRET=your_super_secret_jwt_key_here_change_in_production
+JWT_EXPIRES_IN=24h
 
-## API Endpoints
+# Server Configuration
+PORT=5001
+NODE_ENV=development
 
-### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User login
+# File Upload Configuration
+MAX_FILE_SIZE=10485760
+UPLOAD_PATH=./uploads
 
-### Log Files
-- `POST /api/logs/upload` - Upload log file (requires auth)
-- `GET /api/logs/files` - Get user's uploaded files (requires auth)
-- `GET /api/logs/analysis/:fileId` - Get analysis results (requires auth)
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
 
-## Database Schema
+# CORS Configuration
+ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
+```
 
-### Users Table
-- `id` (SERIAL PRIMARY KEY)
-- `email` (VARCHAR UNIQUE)
-- `password_hash` (VARCHAR)
-- `created_at` (TIMESTAMP)
-- `updated_at` (TIMESTAMP)
+**Frontend Environment (.env.local):**
+```
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
+```
 
-### Log Files Table
-- `id` (SERIAL PRIMARY KEY)
-- `user_id` (INTEGER REFERENCES users)
-- `filename` (VARCHAR)
-- `original_filename` (VARCHAR)
-- `file_size` (INTEGER)
-- `file_path` (VARCHAR)
-- `upload_date` (TIMESTAMP)
-- `status` (VARCHAR)
+### Step 5: OpenAI API Key
 
-### Log Entries Table
-- `id` (SERIAL PRIMARY KEY)
-- `log_file_id` (INTEGER REFERENCES log_files)
-- `timestamp` (TIMESTAMP)
-- `ip_address` (VARCHAR)
-- `event_description` (TEXT)
-- `status` (VARCHAR)
-- `confidence_score` (DECIMAL)
-- `explanation` (TEXT)
-- `raw_log_line` (TEXT)
-- `created_at` (TIMESTAMP)
+To use the AI analysis features, you need an OpenAI API key:
+
+1. Sign up for an OpenAI account at https://platform.openai.com
+2. Generate an API key from your dashboard
+3. Add the API key to your backend environment file
+
+### Step 6: Start the Application
+
+Start both the backend and frontend servers:
+
+**Terminal 1 - Backend Server:**
+```bash
+cd backend
+npm start
+```
+
+**Terminal 2 - Frontend Server:**
+```bash
+npm run dev
+```
+
+The application will be available at:
+- Frontend: http://localhost:3001
+- Backend API: http://localhost:5001
+
+## Usage Guide
+
+### Creating an Account
+
+1. Navigate to the application homepage
+2. Click on "Sign up" to create a new account
+3. Enter your email address and choose a secure password
+4. Click "Sign up" to create your account
+
+### Logging In
+
+1. Enter your email address and password
+2. Click "Login" to access the dashboard
+3. You will be redirected to the main dashboard upon successful authentication
+
+### Uploading Log Files
+
+1. From the dashboard, click "Choose File" in the upload section
+2. Select a log file (supported formats: .txt, .log)
+3. Click "Upload" to process the file
+4. The system will automatically parse and analyze the log entries
+
+### Viewing Analysis Results
+
+1. After upload, the dashboard will display analysis results
+2. View the total number of log entries and detected anomalies
+3. Click on individual files to see detailed analysis
+4. Use the table to browse through all log entries with their threat levels
+
+### Understanding Analysis Results
+
+Each log entry is analyzed and includes:
+
+**Status**: Indicates whether the entry is normal or suspicious
+**Confidence Score**: A numerical value (0.70-0.90) indicating the AI's confidence in the analysis
+**Threat Level**: Low, Medium, or High based on the perceived security risk
+**Explanation**: Detailed reasoning provided by the AI for the classification
+**Recommended Action**: Specific security recommendations for each threat
+
+### File Management
+
+1. View all uploaded files in the "Uploaded Files" section
+2. Click on file names to view detailed analysis
+3. Use the delete button to remove files and their associated analysis data
+4. Refresh the dashboard to see updated file counts and statistics
+
+## AI Analysis Process
+
+The application uses a sophisticated AI analysis pipeline:
+
+1. **Log Parsing**: Raw log files are parsed to extract structured data including timestamps, IP addresses, HTTP methods, status codes, and user agents.
+
+2. **Context Analysis**: The AI examines each log entry in the context of surrounding entries to identify patterns and relationships.
+
+3. **Threat Detection**: Using OpenAI's language model, the system identifies various types of security threats including:
+   - Failed authentication attempts
+   - Unauthorized access attempts
+   - Suspicious API calls
+   - Common attack patterns
+   - Unusual traffic patterns
+
+4. **Risk Assessment**: Each detected threat is assigned a confidence score and threat level based on the AI's analysis.
+
+5. **Recommendation Generation**: The system provides specific, actionable recommendations for each detected threat.
 
 ## Security Features
 
-- **JWT Authentication**: Secure token-based authentication
-- **Password Hashing**: bcryptjs with salt rounds
-- **Rate Limiting**: Express rate limiter
-- **CORS Protection**: Configured for production
-- **Helmet**: Security headers
-- **Input Validation**: Joi schema validation
-- **File Type Validation**: Only .txt and .log files allowed
-- **File Size Limits**: Configurable upload limits
+The application implements several security measures:
 
-## Development
+**Authentication Security**: JWT tokens with secure storage and automatic expiration
+**Password Security**: Bcrypt hashing for secure password storage
+**Input Validation**: Comprehensive validation of all user inputs
+**Rate Limiting**: Protection against brute force attacks
+**CORS Configuration**: Proper cross-origin resource sharing settings
+**File Upload Security**: Validation of file types and sizes
 
-### Running Tests
-```bash
-# Backend tests (when implemented)
-cd backend && npm test
+## Database Schema
 
-# Frontend tests (when implemented)
-npm test
-```
+The application uses three main database tables:
 
-### Code Formatting
-```bash
-# Format code
-npm run format
+**Users Table**: Stores user account information with encrypted passwords
+**Log Files Table**: Tracks uploaded files with metadata and user associations
+**Log Entries Table**: Contains parsed log data with AI analysis results
 
-# Lint code
-npm run lint
-```
+Each log entry includes comprehensive analysis data including threat levels, confidence scores, and AI-generated explanations.
 
 ## Deployment
 
-### Backend Deployment
-1. Set `NODE_ENV=production` in environment variables
-2. Update CORS origins for production domain
-3. Use a production PostgreSQL instance
-4. Set secure JWT secret
-5. Configure proper file upload paths
+### Local Development
 
-### Frontend Deployment
-1. Build the application: `npm run build`
-2. Deploy to Vercel, Netlify, or your preferred platform
-3. Set `NEXT_PUBLIC_API_URL` environment variable
+The application is configured for local development with hot reloading and debugging capabilities. Both frontend and backend servers support automatic restart on file changes.
+
+### Production Deployment
+
+For production deployment, the application can be deployed to Vercel:
+
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables in the Vercel dashboard
+3. Deploy the application using Vercel's build system
+
+The application is designed to work with Vercel's serverless functions for the backend API endpoints.
+
+## Troubleshooting
+
+### Common Issues
+
+**Database Connection Errors**: Ensure PostgreSQL is running and the connection details in your environment file are correct.
+
+**API Connection Errors**: Verify that both frontend and backend servers are running on the correct ports.
+
+**File Upload Issues**: Check that the upload directory exists and has proper write permissions.
+
+**Authentication Problems**: Ensure JWT_SECRET is properly configured and the database contains valid user accounts.
+
+### Performance Optimization
+
+For large log files, consider:
+- Breaking files into smaller chunks for processing
+- Using database indexing for faster queries
+- Implementing pagination for large result sets
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+This project is designed as a demonstration of modern web development practices and AI integration. Contributions are welcome and should follow standard development practices including proper testing and documentation.
 
 ## License
 
-MIT License - see LICENSE file for details
+This project is provided as-is for educational and demonstration purposes. Please ensure compliance with all applicable licenses and terms of service, particularly regarding the use of OpenAI's API.
 
- 
+## Support
 
-## Auth changes
-- Backend now sets an HttpOnly `auth_token` cookie on login/signup and accepts it for protected routes.
-- Frontend no longer persists tokens in localStorage; requests include credentials and rely on the cookie.
-- `.env.example` documents `ALLOWED_ORIGINS` for CORS and `NEXT_PUBLIC_API_URL` for the frontend.
+For technical support or questions about the application, please refer to the project documentation or create an issue in the GitHub repository.
 
+## Future Enhancements
 
-## AI Approach
-
-The anomaly detection engine uses a hybrid method:
-
-1. **Rule-based heuristics**: Pattern matching for suspicious IPs, unusual request rates, or HTTP status anomalies.
-2. **Optional LLM analysis**: If `OPENAI_API_KEY` or `HUGGINGFACE_API_KEY` is set in the backend environment, the `aiAnalyzer.js` will call an external API for deeper semantic anomaly scoring.
-3. **Output fields**:
-   - `status` (string) – label such as "normal", "suspicious"
-   - `confidence_score` (0-1) – float representing certainty
-   - `explanation` – human-readable reason
-   - `threat_level` – numeric severity indicator
-
-If no API keys are provided, detection defaults to local rules.
-
-## Database Setup
-
-1. Install and run PostgreSQL locally.
-2. Create a database, e.g., `logs`.
-3. Update `backend/.env` with:
-   ```
-   DATABASE_URL=postgres://username:password@localhost:5432/logs
-   ```
-4. Initialize tables:
-   ```bash
-   cd backend
-   node init-db.js
-   ```
-
-## Running Locally
-
-1. **Setup env files**:
-   ```bash
-   cp .env.example .env
-   cp backend/env.example backend/.env
-   ```
-   Edit `JWT_SECRET`, `DATABASE_URL`, and API URLs.
-
-2. **Install deps**:
-   ```bash
-   npm install
-   cd backend && npm install && cd ..
-   ```
-
-3. **Run backend**:
-   ```bash
-   cd backend
-   npm run start
-   ```
-
-4. **Run frontend**:
-   ```bash
-   npm run dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000).
-
-## Sample Logs
-
-Sample files are in `sample-logs/`:
-- `apache.log` – basic Apache access logs.
-- `proxy.csv` – simulated proxy logs.
-
-Upload them after login to see detection in action.
-
-## Vercel Deployment
-
-Deploy both frontend and backend to Vercel for production use:
-
-### 1. **Prepare for Deployment**
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Login to Vercel
-vercel login
-```
-
-### 2. **Set Environment Variables in Vercel Dashboard**
-Go to your Vercel project dashboard and add these environment variables:
-
-**Frontend Variables:**
-- `NEXT_PUBLIC_API_URL` = `/api`
-
-**Backend Variables:**
-- `DB_HOST` = your-database-host
-- `DB_PORT` = 5432
-- `DB_NAME` = your-database-name
-- `DB_USER` = your-database-user
-- `DB_PASSWORD` = your-database-password
-- `JWT_SECRET` = your-super-secret-jwt-key
-- `JWT_EXPIRES_IN` = 24h
-- `ALLOWED_ORIGINS` = https://your-domain.vercel.app
-- `OPENAI_API_KEY` = your-openai-api-key (optional)
-- `HUGGINGFACE_API_KEY` = your-huggingface-api-key (optional)
-
-### 3. **Deploy to Vercel**
-```bash
-# Deploy from project root
-vercel --prod
-```
-
-### 4. **Database Setup for Production**
-- Use a cloud PostgreSQL service (e.g., Supabase, Neon, Railway)
-- Update the database connection string in Vercel environment variables
-- The app will automatically connect to your production database
-
-### 5. **Access Your Deployed App**
-- **Frontend**: Your Vercel domain (e.g., `https://your-app.vercel.app`)
-- **Backend API**: `https://your-app.vercel.app/api/*`
-
-## Docker Compose (optional)
-
-A `docker-compose.yml` is included for quick start with Postgres, backend, and frontend:
-```bash
-docker-compose up --build
-```
-
-Services:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5001/api
-- Postgres: localhost:5432
-```
+Potential improvements for future versions include:
+- Support for additional log formats
+- Real-time log streaming and analysis
+- Integration with security information and event management (SIEM) systems
+- Advanced visualization and reporting features
+- Machine learning model training on custom datasets
+- Multi-tenant architecture for enterprise use
 
